@@ -35,7 +35,14 @@ function onForward(){
 }
 
 function onBack(){
-	
+	if(currentPage == 1){
+		currentPage = 0;
+		drawGetIP();
+	}
+	else if(currentPage == 2){
+		currentPage = 1;
+		drawSettings();
+	}
 }
 
 function mockWebService(){
@@ -165,6 +172,7 @@ function drawGetIP(){
 function drawMotionDetectionStarted(){
 	
 	clearControls();
+	hideForwardButton();
 	$('#header').text('Motion Detection in progress');
 	
 	var motionDetectionTemplate = $('#motionDetectionTemplate').html();
