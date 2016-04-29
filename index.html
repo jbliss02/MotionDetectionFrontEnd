@@ -1,0 +1,81 @@
+<html>
+	<head>
+	<title>Spurs 2 Arsenal 1</title>
+		<script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.min.js"></script>
+		<script src="../Scripts/document.js"></script>
+		<link href="..Content/site.css" rel="stylesheet" type="text/css"/>
+	</head>
+	<body>
+		
+		<div id="wrap">
+			<div id="content">
+			
+				<h1 id="header"></h1>
+				
+				<div id="controlDiv" class="container-fluid">
+				</div><!--Container fluid-->			
+				
+			</div> <!-- Content ends -->
+		
+			<div id="nav">
+				<div class="col-md-6">
+					<button type="button" class="btn btn-primary controlBtn">Back</button>	
+				</div>
+				<div class="col-md-6">
+					<button type="button" class="btn btn-success controlBtn">Forward</button>	
+				</div>
+			</div>
+		
+		
+		</div><!-- Wrap ends -->
+		
+		<!--Configure IP camera -->
+		<script type="text/template" id="ipConfigureTemplate">      
+			<div id={{col1Id}} class="col-md-6">
+				<div class="configure">
+					<input type="text" id={{inputId}} class="form-control textInput" placeholder="Enter camera's IP address">		
+					<button type="button" class="btn-secondary btn searchBtn">Search for camera</button>	
+				</div>
+			</div>
+			<div id={{col2Id}} class="col-md-6">
+				
+				<image id="ipImage" className="testImage">
+			</div>			
+		</script>
+		
+
+		
+		<script type="text/template" id="settingItemTemplate" >        
+			<div class="col-md-6" class="settingItem">
+				<div class="settingLine">
+					<label class="settingLabel">{{settingName}}</label>
+					<div id={{settingControlId}} class="settingInput">
+					</div>
+				</div>
+			</div>
+		</script>
+		
+
+		
+		
+		<script type="text/template" id="textInputTemplate">      
+			<input type="text" id={{controlId}} class="form-control textInput">		
+		</script>
+		
+		<script type="text/template" id="booleanTemplate">      
+			<label class="radio-inline"><input type="radio" id={{controlId}} name="optradio" >Yes</label>
+			<label class="radio-inline"><input type="radio" id={{controlId}} name="optradio" >No</label>					
+		</script>
+		
+		<script type="text/template" id="numberInputTemplate">      
+			<input type="text" id={{controlId}} class="form-control numberInput" Value={{defaultValue}}>		
+		</script>
+		
+
+		
+		
+	</body>
+</html>
