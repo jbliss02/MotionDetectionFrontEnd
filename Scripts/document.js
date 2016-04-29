@@ -1,13 +1,42 @@
+var currentPage;
 
 $(document).ready(function () {
+	currentPage = 0;
+	setButtonEvents();
 	drawGetIP();
 	//drawSettings();
+	//drawMotionDetectionStarted();
 });
 
 function clearControls(){
 	$('#controlDiv').empty();
 }
 
+function hideBackButton(){ $('#btnBack').hide();}
+function hideForwardButton(){ $('#btnForward').hide();}
+function showBackButton(){ $('#btnBack').show();}
+function showForwardButton(){ $('#btnForward').show();}
+
+function setButtonEvents(){
+	
+	$('#btnBack').on('click', function(){ onBack(); });
+	$('#btnForward').on('click', function(){ onForward(); });	
+}
+
+function onForward(){
+	if(currentPage == 0){
+		currentPage = 1;
+		drawSettings();
+	}
+	else if(currentPage == 1){
+		currentPage = 2;
+		drawMotionDetectionStarted();
+	}
+}
+
+function onBack(){
+	
+}
 
 function mockWebService(){
 	
@@ -48,6 +77,8 @@ function mockWebService(){
 
 function drawSettings(){
 
+	clearControls();
+	showBackButton();
 	$('#header').text('Configure Motion Detection Session');
 	var settings = mockWebService();
 	
@@ -117,21 +148,37 @@ function addLabel(divId, text, className){
 function drawGetIP(){
 	
 	clearControls();
+	hideBackButton();
 	$('#header').text('Configure IP Camera');
 	
 	var column = new Object();
 	column.col1Id = "col1";	
 	column.inputId = "txtIpAddress";
 	column.col2Id = "col2";	
-	
+	column.btnId = "btnIpSearch";
 	var ipConfigureTemplate = $('#ipConfigureTemplate').html();
 	$('#controlDiv').append(Mustache.render(ipConfigureTemplate, column));
+	$('#btnIpSearch').on('click', function(){onIpSearch();});
 	
+}
 
-
-
+function drawMotionDetectionStarted(){
 	
-	//$('#' + column.col2Id).append(returnImage('http://localhost:9000/api/camera/' + '192.168.0.8' + '/', 'testImage'));
+	clearControls();
+	$('#header').text('Motion Detection in progress');
+	
+	var motionDetectionTemplate = $('#motionDetectionTemplate').html();
+	$('#controlDiv').append(Mustache.render(motionDetectionTemplate, new Object()));
+	$('.spinner').show();
+	
+	
+}
+
+function onIpSearch(){
+	//when the user clicks the 'Search for camera' button
+
+	var ipAddress = $('#txtIpAddress').val();
+	$('#ipImage').attr('src','http://localhost:9000/api/camera/' + ipAddress + '/');	
 	
 }
 

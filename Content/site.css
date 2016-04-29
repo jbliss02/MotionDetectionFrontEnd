@@ -4,7 +4,7 @@ body{background:#2f4f4f;}
 #content {padding:20px;}
 #controlDiv {margin-top:40px;}
 #nav {display:block; margin-top:40px; text-align:center;}
-.controlBtn {width:90%; height:40px; margin: 0 auto;   font-size:1.3em; letter-spacing:2px; font-weight:bold;}
+.controlBtn {width:90%; height:40px; margin-left: 0; margin-right:0; margin-top:10px; font-size:1.3em; letter-spacing:2px; font-weight:bold;}
 
 
 .textInput {display:inline-block;}
@@ -12,9 +12,11 @@ body{background:#2f4f4f;}
 .settingInput {display:inline-block; padding-left:7px;}
 .settingLabel {width:230px;}
 .numberInput {width:75px; text-align:center;}
-.testImage {width:400px; height:300px; display: block; margin: 0 auto;}
+
 
 /* Configure IP camera section */
-#txtIpAddress{display:block; width:200px; text-align:center; margin-top:20px; margin: 0 auto; }
+#txtIpAddress{display:block; width:200px; text-align:center; margin-top:100px; margin: 0 auto; }
 .searchBtn {margin-top:20px; width:200px;}
-.configure {margin: 0 auto; text-align:center; align-content:center; padding-top:20px;padding-bottom:20px;}
+.configure {margin: 0 auto; height:300px; text-align:center; align-content:center; padding-top:20px;padding-bottom:20px; vertical-align:center; }
+.testImage {display: block; margin: 0 auto; height:225; width:350;}
+.spinner {display:none;}

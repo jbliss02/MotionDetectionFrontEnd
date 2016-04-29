@@ -5,8 +5,8 @@
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.min.js"></script>
-		<script src="../Scripts/document.js"></script>
-		<link href="..Content/site.css" rel="stylesheet" type="text/css"/>
+		<script src="Scripts/document.js"></script>
+		<link href="Content/site.css" rel="stylesheet" type="text/css"/>
 	</head>
 	<body>
 		
@@ -22,10 +22,10 @@
 		
 			<div id="nav">
 				<div class="col-md-6">
-					<button type="button" class="btn btn-primary controlBtn">Back</button>	
+					<button type="button" class="btn btn-primary controlBtn" id="btnBack">Back</button>	
 				</div>
 				<div class="col-md-6">
-					<button type="button" class="btn btn-success controlBtn">Forward</button>	
+					<button type="button" class="btn btn-success controlBtn" id="btnForward">Forward</button>	
 				</div>
 			</div>
 		
@@ -34,20 +34,22 @@
 		
 		<!--Configure IP camera -->
 		<script type="text/template" id="ipConfigureTemplate">      
-			<div id={{col1Id}} class="col-md-6">
+			<div id={{col1Id}} class="col-md-6 col1">
 				<div class="configure">
-					<input type="text" id={{inputId}} class="form-control textInput" placeholder="Enter camera's IP address">		
-					<button type="button" class="btn-secondary btn searchBtn">Search for camera</button>	
+					<input type="text" id={{inputId}} class="form-control textInput" placeholder="Enter camera's IP address" >		
+					<button type="button" class="btn-secondary btn searchBtn" id={{btnId}}>Search for camera</button>	
 				</div>
 			</div>
-			<div id={{col2Id}} class="col-md-6">
-				
-				<image id="ipImage" className="testImage">
+			<div id={{col2Id}} class="col-md-6 col2">
+				<div class="configure">
+					<image id="spinner" class="spinner" src="Content/spinner.gif">
+					<image id="ipImage" class="testImage">
+				</div>
 			</div>			
 		</script>
 		
 
-		
+		<!-- Motion Detetcion Settings -->
 		<script type="text/template" id="settingItemTemplate" >        
 			<div class="col-md-6" class="settingItem">
 				<div class="settingLine">
@@ -57,9 +59,6 @@
 				</div>
 			</div>
 		</script>
-		
-
-		
 		
 		<script type="text/template" id="textInputTemplate">      
 			<input type="text" id={{controlId}} class="form-control textInput">		
@@ -74,8 +73,12 @@
 			<input type="text" id={{controlId}} class="form-control numberInput" Value={{defaultValue}}>		
 		</script>
 		
-
-		
+		<!--Start Detection -->
+		<script type="text/template" id="motionDetectionTemplate" >        
+			<div class="col-md-12" class="motionDetection">
+				<image id="spinner" class="spinner" src="Content/spinner.gif">				
+			</div>
+		</script>
 		
 	</body>
 </html>
