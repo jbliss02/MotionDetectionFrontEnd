@@ -1,11 +1,15 @@
 var currentPage;
+var cameraIp;
+var cameraModel; //the camera object returned from the web service
+var webService;
+var motionConfigModel; //populated from the web service
 
 $(document).ready(function () {
 	currentPage = 0;
+	webService = 'http://localhost:9000/api/';
+	setMotionConfigModel();
 	setButtonEvents();
 	drawGetIP();
-	//drawSettings();
-	//drawMotionDetectionStarted();
 });
 
 function clearControls(){
@@ -25,12 +29,13 @@ function setButtonEvents(){
 
 function onForward(){
 	if(currentPage == 0){
-		currentPage = 1;
+		setCameraModel(drawSettings);
 		drawSettings();
 	}
 	else if(currentPage == 1){
 		currentPage = 2;
-		drawMotionDetectionStarted();
+		updateMotionModel();
+		startMotionDetection()
 	}
 }
 
@@ -83,24 +88,25 @@ function mockWebService(){
 }
 
 function drawSettings(){
-
+	currentPage = 1;
 	clearControls();
 	showBackButton();
 	$('#header').text('Configure Motion Detection Session');
-	var settings = mockWebService();
 	
-	for(var i = 0; i < settings.length; i++){
+	//var settings = mockWebService();
+	
+	for(var i = 0; i < this.motionConfigModel.length; i++){
 		
-		addSettingItem(settings[i].title, i.toString());
+		addSettingItem(this.motionConfigModel[i].niceName, i.toString());
 		
-		if(settings[i].settingType.toLowerCase() == "string"){
-			addTextInput(i.toString(), 'text1');
+		if(this.motionConfigModel[i].configType.toLowerCase() == "string"){
+			addTextInput(i.toString(), this.motionConfigModel[i].configName);
 		}
-		else if(settings[i].settingType.toLowerCase() == "boolean"){
-			addBooleanInput(i.toString(), 'text1');
+		else if(this.motionConfigModel[i].configType.toLowerCase() == "boolean"){
+			addBooleanInput(i.toString(), this.motionConfigModel[i].configName);
 		}
-		else if(settings[i].settingType.toLowerCase() == "int" || settings[i].settingType.toLowerCase() == "double"){
-			addNumberInput(i.toString(), 'text1');
+		else if(this.motionConfigModel[i].configType.toLowerCase() == "int" || this.motionConfigModel[i].settingType.toLowerCase() == "double"){
+			addNumberInput(i.toString(), this.motionConfigModel[i].configName);
 		}
 				
 	}
@@ -184,25 +190,94 @@ function drawMotionDetectionStarted(){
 
 function onIpSearch(){
 	//when the user clicks the 'Search for camera' button
-
-	var ipAddress = $('#txtIpAddress').val();
-	$('#ipImage').attr('src','http://localhost:9000/api/camera/' + ipAddress + '/');	
-	
+	cameraIp = $('#txtIpAddress').val();
+	$('#ipImage').attr('src', webService + 'image/' + cameraIp + '/');	
 }
 
-function returnImage(src, className){
+function setCameraModel(fnc){
+	//when the user clicks forward on the 'Configure IP Camera' page, sets the 
+	//camera object by calling web service
 	
-	var ipAddress = '192.168.0.8';
-	//$('#image').attr('src', 'http://localhost:9000/api/camera/' + ipAddress + '/');
-	
-	var img = document.createElement('img');
-	//img.src = 'http://localhost:9000/api/camera/' + ipAddress + '/';
-	img.src = src;
-	img.className = className;
-	return img;
+		var that = this;
+		var func = fnc;
 		
+		$.ajax({ 
+			url:webService + 'camera/' + cameraIp + '/', 
+			type: 'GET', 
+			dataType: 'json', 
+			success: function(response){ 
+				that.cameraModel = response;
+				func();
+			},
+			error: function() { 
+				printError();
+			},
+		}); 
 }
 
+function setMotionConfigModel(){
+	
+		var that = this;
+		
+		$.ajax({ 
+			url:webService + 'motionconfig', 
+			type: 'GET', 
+			dataType: 'json', 
+			success: function(response){ 
+				that.motionConfigModel = response.list;
+			},
+			error: function() { 
+				printError();
+			},
+		}); 
+	
+}
+
+function updateMotionModel(){
+	//takes the users input and updates the model
+	
+	for(var i = 0; i < this.motionConfigModel.length; i++){
+		
+		var val = $('#' + this.motionConfigModel[i].configName).val();
+		
+		if(val != undefined && val != null && val.length > 0){
+			
+			this.motionConfigModel[i].userInput = val;
+			
+		}
+
+	}
+	
+}
+
+function startMotionDetection(){
+	drawMotionDetectionStarted();
+		
+	var obj = new Object();
+	obj.cameraModel = cameraModel;
+	obj.list = motionConfigModel;
+
+	
+	$.ajax({ 
+		url:webService + 'motion',
+		type: 'POST', 
+		dataType: 'json', 
+		contentType:"application/json",
+		data : JSON.stringify(obj),
+		success: function(response){ 
+
+		},
+		error: function() { 
+			printError();
+		},
+	}); 
+	
+	
+}
+
+function printError(){
+	//implment me
+}
 
 
 
